@@ -196,3 +196,4 @@ Project files:
 - [Forecast-building script](https://github.com/transCoderJen/Dodgers-2027-Hitting-Forecasts/blob/master/scripts/build_2027_forecasts.py)
 - [Forecast pipeline tests](https://github.com/transCoderJen/Dodgers-2027-Hitting-Forecasts/blob/master/tests/test_forecast_pipeline.py)
 - [Project requirements](https://github.com/transCoderJen/Dodgers-2027-Hitting-Forecasts/blob/master/requirements.txt)
+- [Complete project repository on GitHub](https://github.com/transCoderJen/Dodgers-2027-Hitting-Forecasts)

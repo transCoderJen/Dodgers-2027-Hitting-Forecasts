@@ -1,0 +1,617 @@
+{
+  "as_of_utc": "2026-10-24T02:20:36.454299+00:00",
+  "source_checksums": {
+    "fangraphs_batting_2015.csv": "cc08f6661e77d1a900b705f459a098f07324aabc39fad3355992cac52cdc1920",
+    "savant_custom_2015.csv": "837f005ececc940936ed2fd5df34952201e48cc48bf43acc2d63fe7e102c0300",
+    "fangraphs_batting_2016.csv": "76e425e5b860a1665702050e712e6ef2be39bceba3ccc9082ae7486e910c769e",
+    "savant_custom_2016.csv": "ea2262cce21b87bd0fc659849a815bf6c6e52e8763e985f53ec20445f114eccc",
+    "fangraphs_batting_2017.csv": "d16f4e162e582f3a4a98c2cb4a40585dfb0b49d6159795692006307c7f512591",
+    "savant_custom_2017.csv": "04d7de34da2be854754441ceb77c29d05b8eb28816959068d3cbc87218a36d5f",
+    "fangraphs_batting_2018.csv": "6056b014b44fab65d9c9b0566cc903db7843460cb5dcefba3cd5c2e1f5bfc469",
+    "savant_custom_2018.csv": "685de255d11be74a17d25eea4f8658deb0b4fec92d2d5498c3dbe362dda6560c",
+    "fangraphs_batting_2019.csv": "fa1449c37cb1e94ca4b103959d982bc5ad91d7aaca4715bdd99ac5843b8a7323",
+    "savant_custom_2019.csv": "57524cc5934cbfb6a76f7ac096c881198c17ecbd4eb307d7c90b84411fe20ae0",
+    "fangraphs_batting_2020.csv": "e39acc8e2873abfcfa768afed44a2307acdca14ef839d58f2c8334115ca39a90",
+    "savant_custom_2020.csv": "6aa054780eaec38a872b9c656089d5daa25a3fafab1f3d155cad7740945defa3",
+    "fangraphs_batting_2021.csv": "35a7b4547ec2e08026dc30f34b5a09103f43f5c0e723435d828dafc28fc18e6d",
+    "savant_custom_2021.csv": "cf141d05b17465127249a0a8b10a73e6b679487aac77f8338afa07e179f3f5f8",
+    "fangraphs_batting_2022.csv": "09a5a437e2f313530469054c6362cdb8a25599cfeee5f318f81af5ac35c0de32",
+    "savant_custom_2022.csv": "d6b5457293c34fc2a331d447ed00929f95032c370d997fbe5febfe2f4df72a27",
+    "fangraphs_batting_2023.csv": "9050bc2303270f791d1a62014b69b1d194048e0c283e98202206f64c3258e309",
+    "savant_custom_2023.csv": "7a5a7020c4ade40d355e4f12b55528d3980b2f9a111ccf8814f486be8a5c92b2",
+    "fangraphs_batting_2024.csv": "0abb2c20f416a5d2c3ca751a19e5cc4673e13b2d5b9f1461041c94fecbb0268e",
+    "savant_custom_2024.csv": "9f423b47a160ba88d10b828d8f28a4d5eaa2d617f10963b9007470029269f13e",
+    "fangraphs_batting_2025.csv": "77a834f9564bec404d78ac2fbe59e17e54d6afe6758170c7d1f2d2d2ebd18e27",
+    "savant_custom_2025.csv": "13fee73b68b640f3a6eddb70138350ee92751fe2bdf9f7bdef6f650c6e84a845",
+    "chadwick_people-0.csv": "d825dc9ad301f8f9e6dc4338f0153dcb60d9953e80b92ab737d7020a68cbe1d2",
+    "chadwick_people-1.csv": "1c55cbbbf8ef252af41687485525db0d52dcb50b6ffad83d2afabf34a590415d",
+    "chadwick_people-2.csv": "8cd2cfc50090f4ccc16aaab591133841c783f5514d17e21704311a9b7c246e8c",
+    "chadwick_people-3.csv": "4f04d2d720268c779826f1019307e8da57a41732e5eee75ee2fa6a2f758dc104",
+    "chadwick_people-4.csv": "a7b1513083a196448fcc29f630f08bac0df840ecab016a6fe3f20798cb3bcefb",
+    "chadwick_people-5.csv": "8c2a114c819f082c2ce2f00eb6e7d00747c18503603a1a194dbb6204070623a2",
+    "chadwick_people-6.csv": "147e139cd39fb8532d3d4664f9a541d27e2a76cab5d700cd178d4c4c63ab577a",
+    "chadwick_people-7.csv": "b627671de7f2185f06934de980085feb708987598baa8ba7539a1c34400779ce",
+    "chadwick_people-8.csv": "5fc519b9f9152f83082b3ff086745df102af4df8c52f2525bdc21c9884e7d12d",
+    "chadwick_people-9.csv": "0d7e872eaaada86393d55d8a71f9e22f710078165f3605c5025932da43066623",
+    "chadwick_people-a.csv": "acf5f83a0c1224c482aec3e295a8e8815da7606a7eab1551db279af3d7916e7a",
+    "chadwick_people-b.csv": "3865907858bb96a911b3de94d5885451ea57315b0159847d8365b1bacc69a3c3",
+    "chadwick_people-c.csv": "7ba78a859d5bd57622eb16538f71c1d558aca34da2d41d6555df9801222bbd7f",
+    "chadwick_people-d.csv": "eb2395d69c03c0b1850f17ad904f37a8c31440467d5929aa3e4f8ab4f65203ef",
+    "chadwick_people-e.csv": "81926371966427488d066a724fbeec7903d56eff40112f84ee9f84cdbbc6a1ee",
+    "chadwick_people-f.csv": "006a2acab5be8bdea08daa149cea1b12a9eddd5dfe0a66e6bf9c6a36b2cb5980"
+  },
+  "chadwick": {
+    "raw_rows": 526894,
+    "distinct_complete_pairs": 21184,
+    "conflicted_fangraphs_ids": 0,
+    "conflicted_mlbam_ids": 0,
+    "unambiguous_pairs": 21184
+  },
+  "seasons": {
+    "2015": {
+      "fangraphs_all_rows": 1348,
+      "fangraphs_below_150_PA": 959,
+      "eligible_fg_PA_at_least_150": 389,
+      "savant_all_rows": 964,
+      "matched_chadwick": 389,
+      "matched_savant": 389,
+      "n_PA_disagreements_over_5": 0,
+      "join_rate": 1.0,
+      "savant_feature_missingness": {
+        "xwoba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "woba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "hard_hit_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "barrel_batted_rate": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "sweet_spot_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "exit_velocity_avg": {
+          "count": 0,
+          "fraction": 0.0
+        }
+      },
+      "savant_feature_missingness_among_matched_players": {
+        "xwoba": 0.0,
+        "woba": 0.0,
+        "hard_hit_percent": 0.0,
+        "barrel_batted_rate": 0.0,
+        "sweet_spot_percent": 0.0,
+        "exit_velocity_avg": 0.0
+      },
+      "unmatched_fangraphs_ids": [],
+      "missing_savant_fangraphs_ids": []
+    },
+    "2016": {
+      "fangraphs_all_rows": 1353,
+      "fangraphs_below_150_PA": 959,
+      "eligible_fg_PA_at_least_150": 394,
+      "savant_all_rows": 969,
+      "matched_chadwick": 394,
+      "matched_savant": 394,
+      "n_PA_disagreements_over_5": 1,
+      "join_rate": 1.0,
+      "savant_feature_missingness": {
+        "xwoba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "woba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "hard_hit_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "barrel_batted_rate": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "sweet_spot_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "exit_velocity_avg": {
+          "count": 0,
+          "fraction": 0.0
+        }
+      },
+      "savant_feature_missingness_among_matched_players": {
+        "xwoba": 0.0,
+        "woba": 0.0,
+        "hard_hit_percent": 0.0,
+        "barrel_batted_rate": 0.0,
+        "sweet_spot_percent": 0.0,
+        "exit_velocity_avg": 0.0
+      },
+      "unmatched_fangraphs_ids": [],
+      "missing_savant_fangraphs_ids": []
+    },
+    "2017": {
+      "fangraphs_all_rows": 1358,
+      "fangraphs_below_150_PA": 967,
+      "eligible_fg_PA_at_least_150": 391,
+      "savant_all_rows": 957,
+      "matched_chadwick": 391,
+      "matched_savant": 391,
+      "n_PA_disagreements_over_5": 1,
+      "join_rate": 1.0,
+      "savant_feature_missingness": {
+        "xwoba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "woba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "hard_hit_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "barrel_batted_rate": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "sweet_spot_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "exit_velocity_avg": {
+          "count": 0,
+          "fraction": 0.0
+        }
+      },
+      "savant_feature_missingness_among_matched_players": {
+        "xwoba": 0.0,
+        "woba": 0.0,
+        "hard_hit_percent": 0.0,
+        "barrel_batted_rate": 0.0,
+        "sweet_spot_percent": 0.0,
+        "exit_velocity_avg": 0.0
+      },
+      "unmatched_fangraphs_ids": [],
+      "missing_savant_fangraphs_ids": []
+    },
+    "2018": {
+      "fangraphs_all_rows": 1379,
+      "fangraphs_below_150_PA": 987,
+      "eligible_fg_PA_at_least_150": 392,
+      "savant_all_rows": 990,
+      "matched_chadwick": 392,
+      "matched_savant": 392,
+      "n_PA_disagreements_over_5": 0,
+      "join_rate": 1.0,
+      "savant_feature_missingness": {
+        "xwoba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "woba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "hard_hit_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "barrel_batted_rate": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "sweet_spot_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "exit_velocity_avg": {
+          "count": 0,
+          "fraction": 0.0
+        }
+      },
+      "savant_feature_missingness_among_matched_players": {
+        "xwoba": 0.0,
+        "woba": 0.0,
+        "hard_hit_percent": 0.0,
+        "barrel_batted_rate": 0.0,
+        "sweet_spot_percent": 0.0,
+        "exit_velocity_avg": 0.0
+      },
+      "unmatched_fangraphs_ids": [],
+      "missing_savant_fangraphs_ids": []
+    },
+    "2019": {
+      "fangraphs_all_rows": 1410,
+      "fangraphs_below_150_PA": 999,
+      "eligible_fg_PA_at_least_150": 411,
+      "savant_all_rows": 990,
+      "matched_chadwick": 411,
+      "matched_savant": 411,
+      "n_PA_disagreements_over_5": 0,
+      "join_rate": 1.0,
+      "savant_feature_missingness": {
+        "xwoba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "woba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "hard_hit_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "barrel_batted_rate": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "sweet_spot_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "exit_velocity_avg": {
+          "count": 0,
+          "fraction": 0.0
+        }
+      },
+      "savant_feature_missingness_among_matched_players": {
+        "xwoba": 0.0,
+        "woba": 0.0,
+        "hard_hit_percent": 0.0,
+        "barrel_batted_rate": 0.0,
+        "sweet_spot_percent": 0.0,
+        "exit_velocity_avg": 0.0
+      },
+      "unmatched_fangraphs_ids": [],
+      "missing_savant_fangraphs_ids": []
+    },
+    "2020": {
+      "fangraphs_all_rows": 1289,
+      "fangraphs_below_150_PA": 1086,
+      "eligible_fg_PA_at_least_150": 203,
+      "savant_all_rows": 581,
+      "matched_chadwick": 203,
+      "matched_savant": 203,
+      "n_PA_disagreements_over_5": 0,
+      "join_rate": 1.0,
+      "savant_feature_missingness": {
+        "xwoba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "woba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "hard_hit_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "barrel_batted_rate": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "sweet_spot_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "exit_velocity_avg": {
+          "count": 0,
+          "fraction": 0.0
+        }
+      },
+      "savant_feature_missingness_among_matched_players": {
+        "xwoba": 0.0,
+        "woba": 0.0,
+        "hard_hit_percent": 0.0,
+        "barrel_batted_rate": 0.0,
+        "sweet_spot_percent": 0.0,
+        "exit_velocity_avg": 0.0
+      },
+      "unmatched_fangraphs_ids": [],
+      "missing_savant_fangraphs_ids": []
+    },
+    "2021": {
+      "fangraphs_all_rows": 1508,
+      "fangraphs_below_150_PA": 1097,
+      "eligible_fg_PA_at_least_150": 411,
+      "savant_all_rows": 1049,
+      "matched_chadwick": 411,
+      "matched_savant": 411,
+      "n_PA_disagreements_over_5": 0,
+      "join_rate": 1.0,
+      "savant_feature_missingness": {
+        "xwoba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "woba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "hard_hit_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "barrel_batted_rate": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "sweet_spot_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "exit_velocity_avg": {
+          "count": 0,
+          "fraction": 0.0
+        }
+      },
+      "savant_feature_missingness_among_matched_players": {
+        "xwoba": 0.0,
+        "woba": 0.0,
+        "hard_hit_percent": 0.0,
+        "barrel_batted_rate": 0.0,
+        "sweet_spot_percent": 0.0,
+        "exit_velocity_avg": 0.0
+      },
+      "unmatched_fangraphs_ids": [],
+      "missing_savant_fangraphs_ids": []
+    },
+    "2022": {
+      "fangraphs_all_rows": 1495,
+      "fangraphs_below_150_PA": 1078,
+      "eligible_fg_PA_at_least_150": 417,
+      "savant_all_rows": 693,
+      "matched_chadwick": 417,
+      "matched_savant": 417,
+      "n_PA_disagreements_over_5": 0,
+      "join_rate": 1.0,
+      "savant_feature_missingness": {
+        "xwoba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "woba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "hard_hit_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "barrel_batted_rate": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "sweet_spot_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "exit_velocity_avg": {
+          "count": 0,
+          "fraction": 0.0
+        }
+      },
+      "savant_feature_missingness_among_matched_players": {
+        "xwoba": 0.0,
+        "woba": 0.0,
+        "hard_hit_percent": 0.0,
+        "barrel_batted_rate": 0.0,
+        "sweet_spot_percent": 0.0,
+        "exit_velocity_avg": 0.0
+      },
+      "unmatched_fangraphs_ids": [],
+      "missing_savant_fangraphs_ids": []
+    },
+    "2023": {
+      "fangraphs_all_rows": 1457,
+      "fangraphs_below_150_PA": 1053,
+      "eligible_fg_PA_at_least_150": 404,
+      "savant_all_rows": 656,
+      "matched_chadwick": 404,
+      "matched_savant": 404,
+      "n_PA_disagreements_over_5": 0,
+      "join_rate": 1.0,
+      "savant_feature_missingness": {
+        "xwoba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "woba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "hard_hit_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "barrel_batted_rate": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "sweet_spot_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "exit_velocity_avg": {
+          "count": 0,
+          "fraction": 0.0
+        }
+      },
+      "savant_feature_missingness_among_matched_players": {
+        "xwoba": 0.0,
+        "woba": 0.0,
+        "hard_hit_percent": 0.0,
+        "barrel_batted_rate": 0.0,
+        "sweet_spot_percent": 0.0,
+        "exit_velocity_avg": 0.0
+      },
+      "unmatched_fangraphs_ids": [],
+      "missing_savant_fangraphs_ids": []
+    },
+    "2024": {
+      "fangraphs_all_rows": 1454,
+      "fangraphs_below_150_PA": 1044,
+      "eligible_fg_PA_at_least_150": 410,
+      "savant_all_rows": 651,
+      "matched_chadwick": 410,
+      "matched_savant": 410,
+      "n_PA_disagreements_over_5": 0,
+      "join_rate": 1.0,
+      "savant_feature_missingness": {
+        "xwoba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "woba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "hard_hit_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "barrel_batted_rate": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "sweet_spot_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "exit_velocity_avg": {
+          "count": 0,
+          "fraction": 0.0
+        }
+      },
+      "savant_feature_missingness_among_matched_players": {
+        "xwoba": 0.0,
+        "woba": 0.0,
+        "hard_hit_percent": 0.0,
+        "barrel_batted_rate": 0.0,
+        "sweet_spot_percent": 0.0,
+        "exit_velocity_avg": 0.0
+      },
+      "unmatched_fangraphs_ids": [],
+      "missing_savant_fangraphs_ids": []
+    },
+    "2025": {
+      "fangraphs_all_rows": 1470,
+      "fangraphs_below_150_PA": 1077,
+      "eligible_fg_PA_at_least_150": 393,
+      "savant_all_rows": 673,
+      "matched_chadwick": 393,
+      "matched_savant": 393,
+      "n_PA_disagreements_over_5": 0,
+      "join_rate": 1.0,
+      "savant_feature_missingness": {
+        "xwoba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "woba": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "hard_hit_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "barrel_batted_rate": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "sweet_spot_percent": {
+          "count": 0,
+          "fraction": 0.0
+        },
+        "exit_velocity_avg": {
+          "count": 0,
+          "fraction": 0.0
+        }
+      },
+      "savant_feature_missingness_among_matched_players": {
+        "xwoba": 0.0,
+        "woba": 0.0,
+        "hard_hit_percent": 0.0,
+        "barrel_batted_rate": 0.0,
+        "sweet_spot_percent": 0.0,
+        "exit_velocity_avg": 0.0
+      },
+      "unmatched_fangraphs_ids": [],
+      "missing_savant_fangraphs_ids": []
+    }
+  },
+  "transitions": {
+    "2015->2016": {
+      "n_predictor_eligible": 389,
+      "n_next_year_at_least_150_PA": 309,
+      "rate_next_year_at_least_150_PA": 0.7943,
+      "n_no_next_season_fg_row": 33,
+      "n_next_year_below_150_PA": 80
+    },
+    "2016->2017": {
+      "n_predictor_eligible": 394,
+      "n_next_year_at_least_150_PA": 299,
+      "rate_next_year_at_least_150_PA": 0.7589,
+      "n_no_next_season_fg_row": 45,
+      "n_next_year_below_150_PA": 95
+    },
+    "2017->2018": {
+      "n_predictor_eligible": 391,
+      "n_next_year_at_least_150_PA": 306,
+      "rate_next_year_at_least_150_PA": 0.7826,
+      "n_no_next_season_fg_row": 36,
+      "n_next_year_below_150_PA": 85
+    },
+    "2018->2019": {
+      "n_predictor_eligible": 392,
+      "n_next_year_at_least_150_PA": 302,
+      "rate_next_year_at_least_150_PA": 0.7704,
+      "n_no_next_season_fg_row": 31,
+      "n_next_year_below_150_PA": 90
+    },
+    "2021->2022": {
+      "n_predictor_eligible": 411,
+      "n_next_year_at_least_150_PA": 314,
+      "rate_next_year_at_least_150_PA": 0.764,
+      "n_no_next_season_fg_row": 32,
+      "n_next_year_below_150_PA": 97
+    },
+    "2022->2023": {
+      "n_predictor_eligible": 417,
+      "n_next_year_at_least_150_PA": 309,
+      "rate_next_year_at_least_150_PA": 0.741,
+      "n_no_next_season_fg_row": 37,
+      "n_next_year_below_150_PA": 108
+    },
+    "2023->2024": {
+      "n_predictor_eligible": 404,
+      "n_next_year_at_least_150_PA": 315,
+      "rate_next_year_at_least_150_PA": 0.7797,
+      "n_no_next_season_fg_row": 33,
+      "n_next_year_below_150_PA": 89
+    },
+    "2024->2025": {
+      "n_predictor_eligible": 410,
+      "n_next_year_at_least_150_PA": 305,
+      "rate_next_year_at_least_150_PA": 0.7439,
+      "n_no_next_season_fg_row": 31,
+      "n_next_year_below_150_PA": 105
+    }
+  },
+  "warnings": []
+}

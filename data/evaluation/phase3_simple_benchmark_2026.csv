@@ -1,0 +1,8 @@
+split,transition,outcome,benchmark,n,brier,accuracy_at_0_5,mae,rmse
+2026_holdout,2025->2026,eligibility,training_base_rate,393,0.18336483854967292,0.7582697201017812,,
+2026_holdout,2025->2026,conditional_wrc_plus,current_wrc_plus_persistence,298,,,22.044023070125128,27.780157927884744
+2026_holdout,2025->2026,conditional_wrc_plus,pa_weighted_mean_shrinkage,298,,,17.94841784615563,22.804800093105897
+2026_holdout,2025->2026,eligibility,historical_ridge,393,0.14558020095603474,0.8015267175572519,,
+2026_holdout,2025->2026,conditional_wrc_plus,historical_ridge,298,,,17.379379133377302,22.235714171052596
+2026_holdout,2025->2026,eligibility,historical_plus_statcast_ridge,393,0.14621078315666092,0.8015267175572519,,
+2026_holdout,2025->2026,conditional_wrc_plus,historical_plus_statcast_ridge,298,,,17.008104900327545,21.39485355439529

@@ -1,0 +1,80 @@
+body {
+  color: #152238;
+  font-family: "Aptos", "Segoe UI", sans-serif;
+}
+
+.slides section {
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 24px 42px 34px 42px;
+}
+
+.slides section h2 {
+  font-size: 1.28em;
+  margin: 0 0 0.45em 0;
+}
+
+.slides h1, .slides h2, .slides h3 {
+  color: #0b1f3a;
+  letter-spacing: -0.02em;
+}
+
+.slides h2 {
+  border-bottom: 4px solid #d99a2b;
+  padding-bottom: 0.18em;
+}
+
+.title-slide {
+  background: linear-gradient(90deg, rgba(8, 25, 49, 0.97) 0%, rgba(8, 25, 49, 0.78) 48%, rgba(8, 25, 49, 0.25) 100%), url('../assets/baseball_analytics_hero.png') center / cover no-repeat !important;
+  color: #fff !important;
+  text-align: left !important;
+  padding-left: 8% !important;
+}
+
+.title-slide hgroup h1,
+.title-slide hgroup h2,
+.title-slide p {
+  color: #fff !important;
+  border: 0;
+}
+
+.title-slide hgroup h1 {
+  font-size: 2.2em;
+  max-width: 70%;
+}
+
+table {
+  width: 100%;
+  font-size: 0.58em;
+  line-height: 1.05;
+}
+
+table th, table td {
+  padding: 0.3em 0.45em;
+  vertical-align: top;
+  word-wrap: break-word;
+}
+
+table th {
+  background: #0b1f3a;
+  color: white;
+}
+
+table tr:nth-child(even) {
+  background: #eef3f8;
+}
+
+.slides section p, .slides section li {
+  font-size: 0.88em;
+  line-height: 1.18;
+}
+
+.slides section img {
+  max-height: 50vh;
+  width: auto;
+}
+
+.small-note {
+  color: #5b6878;
+  font-size: 0.72em;
+}

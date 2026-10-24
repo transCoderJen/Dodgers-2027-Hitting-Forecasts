@@ -1,0 +1,198 @@
+---
+title: "Dodgers 2027 Hitting Forecasts"
+subtitle: "Statcast-informed decision support for roster planning"
+author: "Jen Berenguel"
+date: "2026-10-23"
+output:
+  ioslides_presentation:
+    css: dodgers_phase4_2027.css
+    widescreen: true
+    smaller: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
+                      fig.width = 8.5, fig.height = 3.7, dpi = 120)
+library(ggplot2)
+library(knitr)
+
+forecast <- read.csv("../data/forecasts/player_forecasts_2027.csv", check.names = FALSE)
+dodgers <- read.csv("../data/forecasts/dodgers_forecast_shortlist_2027.csv", check.names = FALSE)
+candidates <- read.csv("../data/forecasts/review_candidates_2027.csv", check.names = FALSE)
+dodgers$Name[grepl("^Teoscar", dodgers$Name)] <- "Teoscar Hernandez"
+```
+
+## Research question
+
+Which Dodgers hitters project the strongest combination of 2027 availability and offensive performance, and how much does Statcast add beyond traditional batting statistics?
+
+We separate:
+
+- **Playing time:** probability of reaching at least 150 PA.
+- **Conditional performance:** next-season wRC+ among hitters who reach 150 PA.
+
+The final holdout is 2026; the application forecast is 2027. The decision focus is the Dodgers roster.
+
+## Data and audit
+
+- FanGraphs all-player batting exports: 2015–2026.
+- Baseball Savant season-level Statcast exports: 2015–2026.
+- Chadwick Register: stable FanGraphs-to-MLBAM identifier mapping.
+
+The 2015–2025 audit found complete eligible cross-source joins and no duplicate player-season keys. Primary non-2020 retention ranged from approximately 74% to 79%.
+
+```{r audit-table}
+audit <- data.frame(
+  Check = c("Development seasons", "Primary PA threshold", "2026 holdout", "Primary transitions"),
+  Result = c("2015–2025", "150 PA", "Used once for final evaluation", "Eight, excluding 2020")
+)
+kable(audit, align = c("l", "l"))
+```
+
+## EDA: what the data say
+
+2020 is included descriptively but excluded from primary transitions because it was a shortened season with an unusual playing-time environment and tracking-system transition.
+
+For Dodgers roster planning, 150 PA preserves a useful sample while avoiding the noisiest part-time population. A 300 PA screen would focus review on regular players, but it would exclude legitimate role-player forecasts.
+
+## EDA: threshold sensitivity
+
+Retention declines as the prior-season playing-time threshold increases. We keep 150 PA as the primary modeling threshold and use 300 PA only as a stricter review sensitivity.
+
+```{r threshold-chart, fig.height=3.8, out.width='82%'}
+thresholds <- data.frame(threshold = c(100, 150, 200, 300), retention = c(.773, .767, .750, .733))
+ggplot(thresholds, aes(threshold, retention)) +
+  geom_line(color = "#0b1f3a", linewidth = 1.1) +
+  geom_point(color = "#d99a2b", size = 3) +
+  scale_y_continuous(labels = scales::percent, limits = c(.70, .80)) +
+  labs(x = "Prior-season PA threshold", y = "Retention", title = "Dodgers forecast eligibility sensitivity") +
+  theme_minimal(base_size = 15) +
+  theme(plot.margin = margin(8, 16, 8, 24))
+```
+
+## Model design
+
+The historical feature set uses PA, wRC+, wOBA, ISO, BB%, and K%. The augmented model adds xwOBA, hard-hit rate, barrel rate, sweet-spot rate, and average exit velocity.
+
+**Frozen choices**
+
+- Historical logistic model for playing-time eligibility.
+- Historical + Statcast ridge model for conditional wRC+.
+- Fixed XGBoost versions retained as sensitivity analyses.
+
+All imputation and scaling occur inside the model pipeline.
+
+## Model comparison
+
+```{r comparison-table}
+comparison <- data.frame(
+  Model = c("Historical ridge", "Historical + Statcast ridge", "Historical + Statcast XGBoost"),
+  Development_ROC_AUC = c(.808, .809, .807),
+  Development_wRC_MAE = c(18.11, 17.63, 17.59)
+)
+kable(comparison, digits = 3)
+```
+
+The Statcast addition helps conditional wRC+ modestly. XGBoost does not provide enough improvement to replace the simpler ridge model.
+
+## 2026 holdout test
+
+```{r holdout-metrics}
+holdout_metrics <- data.frame(
+  Metric = c("Eligibility accuracy", "Eligibility ROC AUC", "Eligibility Brier", "Conditional wRC+ MAE", "Conditional wRC+ RMSE"),
+  Result = c("80.2%", "0.800", "0.146", "17.0", "21.4")
+)
+kable(holdout_metrics)
+```
+
+The holdout visualization showed good broad calibration, with the largest conditional-performance errors among lower-PA players.
+
+## Forecasting 2027
+
+The selected models were refit through 2026 and applied to Dodgers hitters with at least 150 PA in 2026.
+
+The strict review screen requires:
+
+- Eligibility probability ≥ 0.50.
+- Predicted wRC+ ≥ 110.
+- Predicted wRC+ at least 10 points above 2026 wRC+.
+
+The shortlist below is intended for Dodgers roster and player-development discussion, not as an automatic transaction recommendation.
+
+## Dodgers forecast shortlist
+
+```{r dodgers-table}
+dodgers_show <- dodgers[1:min(8, nrow(dodgers)), c("Name", "pa_fg", "wrc_plus", "predicted_wrc_plus", "predicted_eligibility_probability")]
+names(dodgers_show) <- c("Player", "2026 PA", "2026 wRC+", "2027 predicted wRC+", "Eligibility probability")
+kable(dodgers_show, digits = 1)
+```
+
+## Dodgers forecast chart
+
+```{r dodgers-chart}
+dodgers_plot <- dodgers[1:min(8, nrow(dodgers)), ]
+dodgers_plot$Name <- factor(dodgers_plot$Name, levels = rev(dodgers_plot$Name))
+ggplot(dodgers_plot, aes(predicted_wrc_plus, Name)) +
+  geom_col(fill = "#0b1f3a") +
+  geom_text(aes(label = sprintf("%.1f", predicted_wrc_plus)), hjust = -0.15, size = 4) +
+  scale_x_continuous(limits = c(0, 140)) +
+  labs(x = "Predicted 2027 wRC+", y = NULL, title = "Dodgers: selected 2027 forecasts") +
+  theme_minimal(base_size = 14)
+```
+
+## Dodgers player review priorities
+
+The 150 PA threshold is the eligibility target used throughout the project. The review screen emphasizes predicted wRC+ of at least 110 and an improvement of at least 10 points over 2026.
+
+```{r review-table}
+review <- dodgers[1:min(4, nrow(dodgers)), c("Name", "pa_fg", "wrc_plus", "predicted_wrc_plus", "predicted_eligibility_probability", "predicted_wrc_plus_lift_vs_2026")]
+names(review) <- c("Player", "2026 PA", "2026 wRC+", "Pred. 2027 wRC+", "Eligible", "Lift")
+kable(review, digits = 1, align = c("l", "r", "r", "r", "r", "r"))
+```
+
+These are Dodgers roster-planning priorities, not automatic acquisition recommendations. Add health, roster status, defensive role, and expected playing time during baseball review.
+
+<!-- Non-Dodgers context notes retained in the source for reference but omitted from the Dodgers presentation.
+
+## Baseball context for review
+
+**Ketel Marte — Arizona, 2B.** Strong model signal and secure role, but left-knee inflammation and recent injured-list history make availability the main risk to investigate.
+
+**Vladimir Guerrero Jr. — Toronto, 1B.** Strong roster security and a large model lift, but the recent concussion absence and lower-back tightness warrant a health check before treating the forecast as actionable.
+
+The model does not include contracts, roster moves, injuries, defensive value, or expected lineup role; those inputs require manual baseball review.
+
+## Context sources
+
+- [Ketel Marte — MLB player page](https://www.mlb.com/player/ketel-marte-606466)
+- [Ketel Marte returns to the Diamondbacks](https://www.mlb.com/dbacks/news/ketel-marte-return-to-diamondbacks)
+- [Vladimir Guerrero Jr. — MLB player page](https://www.mlb.com/player/vladimir-guerrero-jr-665489)
+- [Guerrero concussion IL report](https://www.mlb.com/bluejays/news/vladimir-guerrero-jr-out-of-blue-jays-lineup-vs-yankees-on-august-15-2026)
+- [Dodgers 2026 roster context](https://www.mlb.com/press-release/dodgers-announce-opening-day-26-man-roster)
+
+-->
+
+## Limitations
+
+- Only five expanding development folds were available.
+- 2020 is not exchangeable with a normal season.
+- Statcast missingness is non-random and flagged in the forecast output.
+- No age, injury, contract, park, role, or roster-context variables are modeled.
+- 2027 outcomes are not yet available.
+- Forecasts are predictive and associative, not causal.
+
+## Reproducibility and handoff
+
+```{r, eval=FALSE}
+.venv\\Scripts\\python.exe -m pip install -r requirements.txt
+.venv\\Scripts\\python.exe scripts/build_2027_forecasts.py
+.venv\\Scripts\\python.exe -m pytest -q
+```
+
+Project files:
+
+- [Complete ranked forecast table](../data/forecasts/player_forecasts_2027.csv)
+- [Dodgers forecast shortlist](../data/forecasts/dodgers_forecast_shortlist_2027.csv)
+- [Forecast-building script](../scripts/build_2027_forecasts.py)
+- [Forecast pipeline tests](../tests/test_forecast_pipeline.py)
+- [Project requirements](../requirements.txt)

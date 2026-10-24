@@ -1,0 +1,3 @@
+split,transition,model,eligibility_n,eligibility_roc_auc,eligibility_brier,eligibility_accuracy,performance_n,performance_mae,performance_rmse
+2026_holdout,2025->2026,historical_xgboost,393,0.7939950547509714,0.14721232652664185,0.7837150127226463,298,17.328136488376384,22.32267067482965
+2026_holdout,2025->2026,historical_plus_statcast_xgboost,393,0.7958318615330272,0.14627636969089508,0.7938931297709924,298,16.992355418950005,21.45090563278497

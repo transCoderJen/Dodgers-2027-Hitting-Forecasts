@@ -8,3 +8,4 @@ xgboost==3.4.1
 requests==2.32.5
 pytest==9.0.2
 ipykernel==7.4.0
+nbconvert==7.17.2

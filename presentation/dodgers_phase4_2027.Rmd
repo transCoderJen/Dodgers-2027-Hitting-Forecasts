@@ -191,8 +191,8 @@ The model does not include contracts, roster moves, injuries, defensive value, o
 
 Project files:
 
-- [Complete ranked forecast table](../data/forecasts/player_forecasts_2027.csv)
-- [Dodgers forecast shortlist](../data/forecasts/dodgers_forecast_shortlist_2027.csv)
-- [Forecast-building script](../scripts/build_2027_forecasts.py)
-- [Forecast pipeline tests](../tests/test_forecast_pipeline.py)
-- [Project requirements](../requirements.txt)
+- [Complete ranked forecast table](https://github.com/transCoderJen/Dodgers-2027-Hitting-Forecasts/blob/master/data/forecasts/player_forecasts_2027.csv)
+- [Dodgers forecast shortlist](https://github.com/transCoderJen/Dodgers-2027-Hitting-Forecasts/blob/master/data/forecasts/dodgers_forecast_shortlist_2027.csv)
+- [Forecast-building script](https://github.com/transCoderJen/Dodgers-2027-Hitting-Forecasts/blob/master/scripts/build_2027_forecasts.py)
+- [Forecast pipeline tests](https://github.com/transCoderJen/Dodgers-2027-Hitting-Forecasts/blob/master/tests/test_forecast_pipeline.py)
+- [Project requirements](https://github.com/transCoderJen/Dodgers-2027-Hitting-Forecasts/blob/master/requirements.txt)

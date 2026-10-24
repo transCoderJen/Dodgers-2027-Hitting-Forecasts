@@ -1,73 +1,89 @@
-# Beyond the Box Score — Phase 1 data feasibility kit
+# Dodgers 2027 Hitting Forecasts
 
-**Status: Phase 1 data audit and initial Phase 2 EDA are complete using the supplied CSV files.** This project contains **no modeled predictions yet**; 2026 remains a locked holdout.
+This project develops a transparent, Statcast-informed forecasting workflow for Dodgers roster and player-development review. It estimates two linked outcomes for hitters:
 
-## Two-part study (preliminary protocol)
+1. The probability of reaching at least 150 plate appearances in the following season.
+2. Conditional next-season wRC+ among hitters who reach that playing-time threshold.
 
-- Predictor population: MLB batters with **≥150 PA in season t**.
-- Part A: `1(PA_(t+1) >= 150)` across *all* eligible predictor-year records. No next-year record in an exhaustive FanGraphs dataset is interpreted as 0 MLB PA, but only after verifying the export includes every hitter.
-- Part B: next-season wRC+ **conditional on** `PA_(t+1) >= 150`.
-- 2026 is a **locked outcome holdout**. Do not audit next-season wRC+ or playing-time labels for 2025→2026 while selecting methods. 2026 data can be separately stored and checksummed, but not used for EDA/model selection.
-- Treat transitions involving 2020 as a later sensitivity analysis.
+The production application uses 2026 data to forecast 2027 Dodgers performance. The project is predictive decision support—not a transaction recommendation or causal analysis.
 
-## Sources
+## What has been completed
 
-1. **FanGraphs batting leaderboard**: https://www.fangraphs.com/leaders/major-league  . Export separate year-by-year batting CSVs using the available official interface; set the minimum plate appearances to **1 or 0**, NOT `Qualified` or 150. Keep all teams aggregated to one player-season. We need at least `IDfg`, `Season`, `PA`, `wRC+`. Save CSV as `data/raw/fangraphs_batting_YYYY.csv`. Verify your export permissions and the source's terms. Although `pybaseball.batting_stats` documents a programmatic wrapper, this kit does **not** automate FanGraphs access or bypass restrictions.
-2. **Baseball Savant custom leaderboard**: https://baseballsavant.mlb.com/leaderboard/custom . Official season-level player CSV export; `scripts/acquire_public.py` requests a small feature set at minimum PA=1 (no qualified-only filter). Save as `data/raw/savant_custom_YYYY.csv`. Verify CSV header names after download; some column labels may vary.
-3. **Chadwick register**: https://github.com/chadwickbureau/register . 16 shards `data/people-0.csv` through `people-f.csv`, available under the ODC Attribution License. Downloaded to `data/raw/chadwick_people-X.csv`.
+- Acquired and audited FanGraphs batting data for 2015–2026 through permitted exports.
+- Acquired season-level Baseball Savant features for 2015–2026.
+- Built stable player joins using the Chadwick register.
+- Completed exploratory analysis, including the 2020 shortened-season exception and playing-time threshold sensitivity.
+- Evaluated historical and Statcast-augmented models with expanding temporal validation.
+- Held out 2026 for final evaluation before refitting the selected models through 2026.
+- Generated 407 2027 forecasts and a ranked Dodgers shortlist.
+- Created automated forecast-pipeline tests, a reproducible analysis notebook, and an RPubs-ready presentation.
 
-For each provider record retrieval date, URL, parameters, and SHA-256 checksum. No raw FanGraphs or Baseball Savant dumps should be committed to public GitHub without permission.
+## Model choices and evaluation
 
-## Install and run (in your machine, with permitted network access)
+The frozen production choices are:
 
-```bash
+- Historical ridge/logistic modeling for playing-time eligibility.
+- Historical + Statcast ridge modeling for conditional wRC+.
+- XGBoost retained as a nonlinear sensitivity analysis.
+- 150 PA used as the primary eligibility threshold; 300 PA is treated as a stricter review sensitivity.
+
+The untouched 2026 holdout produced approximately 80.2% eligibility accuracy, 0.800 eligibility ROC AUC, 0.146 Brier score, 17.0 wRC+ MAE, and 21.4 wRC+ RMSE. The holdout remains separate from model selection and is not changed by the final 2027 refit.
+
+## Main outputs
+
+- [Final portfolio report](reports/final_portfolio_report.md)
+- [2027 forecast methodology](reports/phase4_2027_forecasts.md)
+- [Complete ranked forecast table](data/forecasts/player_forecasts_2027.csv)
+- [Dodgers forecast shortlist](data/forecasts/dodgers_forecast_shortlist_2027.csv)
+- [2027 model and predictions notebook](notebooks/dodgers_2027_model_and_predictions.ipynb)
+- [2026 holdout visualization notebook](notebooks/phase3_2026_holdout_visualization.ipynb)
+- [R Markdown presentation source](presentation/dodgers_phase4_2027.Rmd)
+- [Rendered presentation](presentation/dodgers_phase4_2027.html)
+
+## Repository structure
+
+```text
+data/          Raw, derived, evaluation, and forecast data
+notebooks/     EDA, holdout diagnostics, and 2027 forecast review
+presentation/  RPubs-ready R Markdown presentation and CSS
+reports/       Audit, model comparison, diagnostics, and forecast reports
+scripts/       Acquisition, audit, evaluation, and forecast-building scripts
+tests/         Automated data and forecast-pipeline tests
+```
+
+## Reproduce the Python workflow
+
+From the project root:
+
+```powershell
 python -m venv .venv
-# activate the virtual environment for your OS
+.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-python scripts/acquire_public.py --sources savant chadwick
-# Manually export FanGraphs files for each year into data/raw/ as described above.
-python scripts/audit.py
+python scripts/build_2027_forecasts.py
 pytest -q
 ```
 
-The starter pilot seasons are **2015, 2016, 2018, 2019, 2021, 2022, 2024, 2025** (covering 2015→16, 2018→19, 2021→22, and 2024→25). If any download returns 403/429 or HTML, **stop and use allowed manual exports**, not access-control workarounds.
+The forecast-building script writes the production outputs to `data/forecasts/`. The notebook can be opened in VS Code with the Python and Jupyter extensions. Its execution dependency, `nbconvert`, is included in `requirements.txt`.
 
-## Expected outputs
+## Render the presentation
 
-- `data/acquisition_manifest.json`: obtained file hashes, retrieval times, errors.
-- `data/audit/phase1_quantitative.json`: row counts, duplicates checked, crosswalk conflicts, join rates, per-season missingness and player-return frequencies.
-- `data/audit/phase1_quantitative.md`: human-readable tables from **actual files**.
+The presentation requires R, the R packages `rmarkdown`, `knitr`, `ggplot2`, and `scales`, plus Pandoc. From the project root, render with:
 
-This kit doesn't guarantee ingestion will work unchanged. Source formats and access policies can change. An unrecognized header or duplicate key should cause the audit to **fail loudly**, not silently alter the study population.
+```powershell
+Rscript -e "rmarkdown::render('presentation/dodgers_phase4_2027.Rmd', output_dir='presentation')"
+```
 
-## Current findings and next step
+## Important limitations
 
-- FanGraphs data are available for 2015-2026; the development audit uses 2015-2025 and protects 2026.
-- The eligible FanGraphs/Savant joins are complete for the audited 150+ PA cohorts, with no duplicate player-season keys found.
-- Primary retention across non-2020 transitions is approximately 74%-79% at the 150 PA threshold.
-- Threshold sensitivity is documented in `notebooks/phase2_eda.ipynb`; average retention falls as the threshold increases from 100 to 300 PA.
-- 2020 is included descriptively but excluded from primary transitions because of its shortened season and unusual measurement environment.
+- 2027 outcomes are not yet available, so the application forecasts cannot be scored yet.
+- 2020 is not treated as a normal season in primary year-to-year transitions.
+- Statcast missingness is non-random; missing rows are retained and flagged in the forecast output.
+- The model does not include contracts, injuries, roster moves, defensive value, park effects, or expected lineup role.
+- Five expanding temporal development folds provide useful validation but limited evidence for long-run stability.
+- Baseball context and organizational judgment remain necessary before acting on any forecast.
 
-The next step is Phase 3 modeling: construct leakage-safe transition datasets, fit the playing-time and conditional-wRC+ baselines, and evaluate them with expanding-window validation. Do not use 2026 for feature selection, tuning, or model selection.
+## Source and access notes
 
-The first Phase 3 artifact is generated by `scripts/build_phase3_dataset.py` and saved to `data/derived/phase3_transitions.csv`. It contains 3,208 eligible predictor-season rows across the eight approved primary transitions, with current-season predictors and next-season outcomes kept separate.
+The project uses FanGraphs batting exports, Baseball Savant public season-level exports, and the Chadwick register. Raw provider exports and source-specific access details are documented in the acquisition and audit reports. The workflow does not bypass access controls or automate restricted FanGraphs access.
 
-The initial historical-statistics baselines are evaluated by `scripts/evaluate_baselines.py`; results are saved in `reports/phase3_baseline_evaluation.md` and `data/evaluation/`. The expanding-window development average is ROC AUC 0.808 for playing-time eligibility and MAE 18.1 wRC+ for conditional performance. The untouched 2025-to-2026 holdout gives ROC AUC 0.800 and MAE 17.4 wRC+; these are baseline results, not evidence that Statcast features add value yet.
-
-The matched Statcast comparison is evaluated by `scripts/evaluate_statcast_models.py` and documented in `reports/phase3_statcast_comparison.md`. Adding Statcast features improves development-fold wRC+ MAE from 18.11 to 17.63, while changing eligibility ROC AUC only from 0.808 to 0.809. On the 2026 holdout, wRC+ MAE changes from 17.38 to 17.01, while eligibility ROC AUC changes from 0.800 to 0.798. These are preliminary comparisons across five temporal folds, not evidence of a robust Statcast advantage yet.
-
-Uncertainty, calibration, and playing-time subgroup diagnostics are generated by `scripts/diagnose_phase3_models.py` and documented in `reports/phase3_model_diagnostics.md`. The paired bootstrap interval for the development wRC+ MAE difference is -0.74 to -0.23 (Statcast minus historical), while the eligibility ROC AUC difference is -0.002 to 0.003. The diagnostics show larger performance errors for lower-PA players and no clear eligibility-calibration advantage from adding Statcast features.
-
-Simple persistence and regression-to-the-mean benchmarks are evaluated by `scripts/evaluate_simple_benchmarks.py` and documented in `reports/phase3_simple_benchmarks.md`. On development folds, current-season wRC+ persistence has MAE 21.36, PA-weighted shrinkage has MAE 18.38, historical ridge has MAE 18.11, and historical-plus-Statcast ridge has MAE 17.63. The training base-rate eligibility benchmark has Brier score 0.183 versus 0.142 for the historical ridge model.
-
-Fixed nonlinear XGBoost models are evaluated by `scripts/evaluate_xgboost.py` and documented in `reports/phase3_xgboost_evaluation.md`. The historical-plus-Statcast XGBoost model has development wRC+ MAE 17.59 and 2026 holdout MAE 16.99, only slightly better than the corresponding ridge model. Its eligibility results are not better overall, so the current evidence does not justify replacing the simpler ridge model with XGBoost.
-
-The 2026 holdout predictions and diagnostic plots are available in `notebooks/phase3_2026_holdout_visualization.ipynb`. The notebook shows eligibility calibration, actual-versus-predicted conditional wRC+, and error by prior-season PA group.
-
-The 2026 Savant features were acquired through the permitted public export and used for the 2026→2027 scoring application. The selected models were refit through 2026 and generated 407 forecasts in `data/forecasts/player_forecasts_2027.csv`; two model-screening candidates are listed in `data/forecasts/review_candidates_2027.csv` and documented in `reports/phase4_2027_forecasts.md`. These candidates require baseball review and are not causal claims.
-
-The integrated portfolio narrative is in `reports/final_portfolio_report.md`. Forecast QA is covered by `tests/test_forecast_pipeline.py`; the full test suite currently passes 10 tests. The RPubs-ready slide source is `presentation/dodgers_phase4_2027.Rmd` with `presentation/dodgers_phase4_2027.css` and the project-local generated hero asset `assets/baseball_analytics_hero.png`.
-
-## Decision gate before modeling
-
-Review: (1) Which seasons have valid complete data? (2) Crosswalk coverage and lost players? (3) Feature completeness for ≥150 PA hitters? (4) Sample-size reduction by eligibility and return threshold? (5) Is 150 PA defensible versus alternate thresholds? (6) Did source access comply with provider terms? Only after these checks should the research protocol be frozen.
+Project repository: <https://github.com/transCoderJen/Dodgers-2027-Hitting-Forecasts>
